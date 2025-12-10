@@ -1,11 +1,14 @@
 const express = require('express');
+const { getData, saveData } = require("../data/storage");
+
 
 const { 
     createTicket,
     getAllTickets,
     getSingleTicket,
     updateTicket,
-    deleteTicket
+    deleteTicket,
+    searchTickets
 } = require('../controllers/ticketController');
 
 const router = express.Router();
@@ -20,6 +23,9 @@ const {
 
 
 // Viktig å ha array med validering FØR vi går videre. 
+
+router.get("/search", searchTickets);
+
 
 // GET| www.localost:3002/api/v2/movies
 router.get('/',getAllTickets );

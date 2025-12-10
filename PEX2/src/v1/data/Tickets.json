@@ -1,7 +1,26 @@
 [
-  { "id": 1, "title": "Printer not working", "status": "Open", "description": "User cannot print." },
-  { "id": 2, "title": "Email login issue", "status": "In Progress", "description": "Password reset required." },
-  { "id": 3, "title": "Network disconnects", "status": "Open", "description": "Intermittent connection loss." },
-  { "id": 4, "title": "Laptop battery failure", "status": "Closed", "description": "Battery replaced." },
-  { "id": 67, "title": "Jeg liker kebab", "status": "Closed", "description": "Mangler livsglede." }
+  {
+    "id": 1,
+    "title": "Hagla frister",
+    "description": "Stemmene hvisker",
+    "status": "In Progress"
+  },
+  {
+    "id": 2,
+    "title": "Gunnar",
+    "description": "Gunhild",
+    "status": "In Progress"
+  },
+  {
+    "id": 3,
+    "title": "Gunhild",
+    "description": "Gunnar",
+    "status": "In Progress"
+  },
+  {
+    "id": 4,
+    "title": "Hagla",
+    "description": "Gunnar",
+    "status": "In Progress"
+  }
 ]

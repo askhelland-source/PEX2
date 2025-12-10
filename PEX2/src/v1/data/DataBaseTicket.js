@@ -1,59 +1,50 @@
-let objects =  [
-    { id: 1, title: "Printer not working", status: "Open", description: "User cannot print." },
-    { id: 2, title: "Email login issue", status: "In Progress", description: "Password reset required." },
-    { id: 3, title: "Network disconnects", status: "Open", description: "Intermittent connection loss." },
-    { id: 4, title: "Laptop battery failure", status: "Closed", description: "Battery replaced." },
-    { id: 67, title: "Jeg liker kebab", status: "Closed", description: "Mangler livsglede." }
-];
+const { getData, saveData } = require("./storage");
 
 // Get all objects
 const getAllObjects = () => {
-    return [...objects];
+    return getData();
 }
 
 // Add object
 const addObject = (object) => {
-    const id = objects.length ? objects[objects.length - 1].id + 1 : 1; // Ensure the ID is unique by checking the length of the movies array
-    const newObject = { id, ...object };
-    objects.push(newObject);
-    return newObject;
+    const objects = getData();
+    const id = objects.length ? objects[objects.length - 1].id + 1 : 1;
+
+    const newObj = { id, ...object };
+    objects.push(newObj);
+    saveData(objects);
+
+    return newObj;
 }
+
 
 // Get object by id
 const getObjectById = (id) => {
-    id = parseInt(id);
-    if (isNaN(id)) return null; // Return null if id is not a number
-    return objects.find((object) => object.id === id); // // Ensure the id is a number with parseInt
+    return getData().find(obj => obj.id === parseInt(id)) || null;
 }
 
 // Delete object by id
 const deleteObjectById = (id) => {
-    id = parseInt(id); // Ensure the ID is a number
-    if (isNaN(id)) return false; // Handle invalid IDs
+    const objects = getData();
+    const filtered = objects.filter(obj => obj.id !== parseInt(id));
 
-    // makes index = id of movie
-    const index = objects.findIndex((object) => object.id === id);
+    if (filtered.length === objects.length) return false;
 
-    // Check if index is not -1/does not exist | if it does exist, delete it by splicing. Splicing removes the element at the specified index
-    if (index !== -1) {
-        objects.splice(index, 1);
-        return true;
-    }
-    return false;
+    saveData(filtered);
+    return true;
 }
 
 // Update object by id
 const updateObjectById = (id, updatedObject) => {
-    id = parseInt(id); // Ensure the ID is a number
-    if (isNaN(id)) return false; // Handle invalid IDs
+    const objects = getData();
+    const index = objects.findIndex(obj => obj.id === parseInt(id));
 
-    // makes index = id of object | check if id/object exists | if it does, update it.
-    const index = objects.findIndex((object) => object.id === id);
-    if (index !== -1) {
-        objects[index] = { ...objects[index], ...updatedObject };
-        return objects[index];
-    }
-    return null;
+    if (index === -1) return null;
+
+    objects[index] = { ...objects[index], ...updatedObject };
+    saveData(objects);
+
+    return objects[index];
 }
 
 

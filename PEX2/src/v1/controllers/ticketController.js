@@ -67,10 +67,67 @@ const deleteTicket = async (req, res) => {
 
 }
 
+
+
+
+//Search start
+
+const searchTickets = (req, res) => {
+    const { q } = req.query;
+
+    // Hvis søket er tomt
+    if (!q) {
+        return res.json({ success: true, data: [] });
+    }
+
+    const tickets = getData();
+    const searchId = q.replace(/[^0-9]/g, ''); 
+
+    const results = tickets
+        .map(ticket => {
+            const combinedText = `
+                ${ticket.title}
+                ${ticket.description}
+                ${ticket.status}
+                ${ticket.id}
+                ${ticket.date || ""}
+            `.replace(/\s+/g, " ").toLowerCase();
+            
+            const queryLower = q.toLowerCase();
+            let score = calculateScore(combinedText, queryLower);
+
+            // ID-Sjekk logikk
+            if (String(ticket.id) === q.trim()) {
+                score += 100; 
+            } else if (searchId && String(ticket.id) === searchId) {
+                score += 50; 
+            }
+
+            return { ...ticket, score };
+        })
+        .filter(t => t.score > 0)
+        .sort((a, b) => b.score - a.score);
+
+    res.json({ success: true, data: results });
+};
+
+// --- HJELPEFUNKSJON (kan ligge nederst i fila, men ikke eksporteres) ---
+function calculateScore(text, query) {
+    if (!text.includes(query)) return 0;
+    let s = 1;
+    if (text === query) s += 10;
+    if (text.startsWith(query)) s += 5;
+    return s;
+}
+
+// Search end
+
+
 module.exports = {
     getAllTickets,
     getSingleTicket,
     createTicket,
     updateTicket,
-    deleteTicket
+    deleteTicket,
+    searchTickets
 };
