@@ -1,5 +1,7 @@
 const { getAllObjects, getObjectById, deleteObjectById, updateObjectById, addObject } = require('../data/DataBaseTicket');
 const { get } = require('../routes/TicketsRoutes');
+const Fuse = require('fuse.js');
+
 
 
 const getAllTickets = async (req, res) => {
@@ -71,54 +73,31 @@ const deleteTicket = async (req, res) => {
 
 
 //Search start
-
-const searchTickets = (req, res) => {
+const searchTickets = async (req, res) => {
     const { q } = req.query;
+    if (!q) return res.json({ success: true, data: [] });
 
-    // Hvis søket er tomt
-    if (!q) {
-        return res.json({ success: true, data: [] });
+    try {
+        const tickets = await getAllObjects();
+
+        // Konfigurasjon for Fuse
+        const options = {
+            keys: ['title', 'description', 'status', 'id', 'createdAt', 'completedAt'],
+            threshold: 0.6, // Jo lavere, jo strengere match
+            ignoreLocation: true,
+            includeScore: true,
+        };
+
+        const fuse = new Fuse(tickets, options);
+        const results = fuse.search(q).map(r => r.item);
+
+        res.json({ success: true, data: results });
+
+    } catch (error) {
+        res.status(500).json({ success: false, error: "Something went wrong while searching tickets: " + error.message });
     }
-
-    const tickets = getData();
-    const searchId = q.replace(/[^0-9]/g, ''); 
-
-    const results = tickets
-        .map(ticket => {
-            const combinedText = `
-                ${ticket.title}
-                ${ticket.description}
-                ${ticket.status}
-                ${ticket.id}
-                ${ticket.date || ""}
-            `.replace(/\s+/g, " ").toLowerCase();
-            
-            const queryLower = q.toLowerCase();
-            let score = calculateScore(combinedText, queryLower);
-
-            // ID-Sjekk logikk
-            if (String(ticket.id) === q.trim()) {
-                score += 100; 
-            } else if (searchId && String(ticket.id) === searchId) {
-                score += 50; 
-            }
-
-            return { ...ticket, score };
-        })
-        .filter(t => t.score > 0)
-        .sort((a, b) => b.score - a.score);
-
-    res.json({ success: true, data: results });
 };
 
-// --- HJELPEFUNKSJON (kan ligge nederst i fila, men ikke eksporteres) ---
-function calculateScore(text, query) {
-    if (!text.includes(query)) return 0;
-    let s = 1;
-    if (text === query) s += 10;
-    if (text.startsWith(query)) s += 5;
-    return s;
-}
 
 // Search end
 

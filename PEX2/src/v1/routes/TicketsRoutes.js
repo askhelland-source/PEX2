@@ -1,6 +1,4 @@
 const express = require('express');
-const { getData, saveData } = require("../data/storage");
-
 
 const { 
     createTicket,

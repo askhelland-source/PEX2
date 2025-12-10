@@ -136,7 +136,8 @@ function SokSak() {
                 <div style={{ fontWeight: 600 }}>{r.title} <span style={{ color: "#666" }}>#{r.id}</span></div>
                 <div style={{ fontSize: 13, color: "#333" }}>{r.description}</div>
                 <div style={{ fontSize: 12, color: "#555" }}>
-                  Status: {r.status} — Dato: {r.date || "ukjent"} — Score: {r.score ?? "-"}
+                  Status: {r.status} — Start: {r.createdAt ? new Date(r.createdAt).toLocaleString() : "ukjent"} 
+                  {r.completedAt && <> — Ferdig: {new Date(r.completedAt).toLocaleString()}</>}
                 </div>
               </li>
             ))}
