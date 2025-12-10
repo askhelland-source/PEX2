@@ -1,52 +1,351 @@
 [
-  { "id": 1, "title": "Hagla frister", "description": "Stemmene hvisker", "status": "In Progress", "createdAt": "2025-12-10T10:00:00.000Z" },
-  { "id": 2, "title": "Gunnar", "description": "Gunhild", "status": "In Progress", "createdAt": "2025-12-09T09:15:00.000Z" },
-  { "id": 3, "title": "Gunhild", "description": "Gunnar", "status": "Open", "createdAt": "2025-12-08T14:30:00.000Z" },
-  { "id": 4, "title": "Hagla", "description": "Gunnar", "status": "Closed", "createdAt": "2025-12-07T12:00:00.000Z" },
-  { "id": 5, "title": "Elefant", "description": "Avocado", "status": "In Progress", "createdAt": "2021-12-06T11:45:00.000Z" },
-  { "id": 6, "title": "Laptop ødelagt", "description": "Batteri fungerer ikke", "status": "Open", "createdAt": "2025-12-05T13:20:00.000Z" },
-  { "id": 7, "title": "Printer problem", "description": "Papirstopp", "status": "Closed", "createdAt": "2025-12-04T08:10:00.000Z" },
-  { "id": 8, "title": "Skjerm svart", "description": "Monitor slår seg ikke på", "status": "In Progress", "createdAt": "2025-12-03T15:55:00.000Z" },
-  { "id": 9, "title": "Mus fungerer ikke", "description": "Trådløs mus kobler fra", "status": "Open", "createdAt": "2025-12-02T10:30:00.000Z" },
-  { "id": 10, "title": "Tastatur problem", "description": "Noen taster virker ikke", "status": "Closed", "createdAt": "2021-12-01T09:00:00.000Z" },
-  { "id": 11, "title": "Mobil lader", "description": "USB-C kabel defekt", "status": "In Progress", "createdAt": "2025-11-30T16:45:00.000Z" },
-  { "id": 12, "title": "Router restart", "description": "Internett faller ut ofte", "status": "Open", "createdAt": "2025-11-29T14:10:00.000Z" },
-  { "id": 13, "title": "Epost problem", "description": "Mottar ingen eposter", "status": "Closed", "createdAt": "2025-11-28T12:30:00.000Z" },
-  { "id": 14, "title": "VPN fungerer ikke", "description": "Kan ikke logge på eksternt", "status": "In Progress", "createdAt": "2025-11-27T09:50:00.000Z" },
-  { "id": 15, "title": "Webkamera defekt", "description": "Kamera viser svart skjerm", "status": "Open", "createdAt": "2025-11-26T11:15:00.000Z" },
-  { "id": 16, "title": "Hodetelefon problem", "description": "Lyd forsvinner plutselig", "status": "Closed", "createdAt": "2025-11-25T10:00:00.000Z" },
-  { "id": 17, "title": "Software crash", "description": "Program lukker seg selv", "status": "In Progress", "createdAt": "2025-11-24T14:35:00.000Z" },
-  { "id": 18, "title": "Windows update", "description": "Installasjon stopper på 50%", "status": "Open", "createdAt": "2025-11-23T09:40:00.000Z" },
-  { "id": 19, "title": "Backup feil", "description": "Sikkerhetskopi fullfører ikke", "status": "Closed", "createdAt": "2025-11-22T15:20:00.000Z" },
-  { "id": 20, "title": "Skanner problem", "description": "Får feilmelding 0x01", "status": "In Progress", "createdAt": "2025-11-21T08:55:00.000Z" },
-  { "id": 21, "title": "Laptop langsom", "description": "Tar 5 minutter å starte", "status": "Open", "createdAt": "2025-11-20T13:00:00.000Z" },
-  { "id": 22, "title": "Musikkprogram krasjer", "description": "Ableton lukker seg", "status": "Closed", "createdAt": "2025-11-19T10:30:00.000Z" },
-  { "id": 23, "title": "Monitor blinker", "description": "Bildet flimrer", "status": "In Progress", "createdAt": "2025-11-18T12:15:00.000Z" },
-  { "id": 24, "title": "Printer toner tom", "description": "Kan ikke printe svart/hvitt", "status": "Open", "createdAt": "2025-11-17T09:05:00.000Z" },
-  { "id": 25, "title": "PC restart loop", "description": "Starter på nytt kontinuerlig", "status": "Closed", "createdAt": "2025-11-16T14:50:00.000Z" },
-  { "id": 26, "title": "Mikrofon virker ikke", "description": "Ingen lyd til Teams", "status": "In Progress", "createdAt": "2025-11-15T11:25:00.000Z" },
-  { "id": 27, "title": "Software lisens utløpt", "description": "Kan ikke åpne app", "status": "Open", "createdAt": "2025-11-14T08:40:00.000Z" },
-  { "id": 28, "title": "PC fra 2021", "description": "Ødelagt harddisk", "status": "Closed", "createdAt": "2025-11-13T10:10:00.000Z" },
-  { "id": 29, "title": "Gamle filer", "description": "Mangler tilgang", "status": "In Progress", "createdAt": "2025-11-12T09:30:00.000Z" },
-  { "id": 30, "title": "Nettverk problem", "description": "IP konflikt", "status": "Open", "createdAt": "2025-11-11T12:45:00.000Z" },
-  { "id": 31, "title": "Laptop 2020", "description": "Skjerm sprekker", "status": "Closed", "createdAt": "2024-11-10T14:15:00.000Z" },
-  { "id": 32, "title": "Printer feil", "description": "Feil 0x04", "status": "In Progress", "createdAt": "2024-11-09T11:50:00.000Z" },
-  { "id": 33, "title": "USB problemer", "description": "Kobler fra stadig vekk", "status": "Open", "createdAt": "2025-11-08T10:05:00.000Z" },
-  { "id": 34, "title": "Musikkfil ikke åpner", "description": "Feil format", "status": "Closed", "createdAt": "2025-11-07T09:25:00.000Z" },
-  { "id": 35, "title": "PC langsom oppstart", "description": "Mye CPU bruk ved boot", "status": "In Progress", "createdAt": "2025-11-06T13:10:00.000Z" },
-  { "id": 36, "title": "Teams crash", "description": "Feil ved deling av skjerm", "status": "Open", "createdAt": "2025-11-05T08:45:00.000Z" },
-  { "id": 37, "title": "Laptop 2019", "description": "Slår seg av tilfeldig", "status": "Closed", "createdAt": "2024-11-04T12:30:00.000Z" },
-  { "id": 38, "title": "Webkamera uklart", "description": "Blurry bilde", "status": "In Progress", "createdAt": "2021-11-03T10:15:00.000Z" },
-  { "id": 39, "title": "Printer feil papirstopp", "description": "Må rykke ut papiret", "status": "Open", "createdAt": "2025-11-02T09:00:00.000Z" },
-  { "id": 40, "title": "Hodetelefon lydproblemer", "description": "Lyd kutter", "status": "Closed", "createdAt": "2025-11-01T11:50:00.000Z" },
-  { "id": 41, "title": "Backup fullfører ikke", "description": "Filer mangler", "status": "In Progress", "createdAt": "2025-10-31T14:20:00.000Z" },
-  { "id": 42, "title": "Skanner 2022", "description": "Feilmelding 0x09", "status": "Open", "createdAt": "2025-10-30T09:10:00.000Z" },
-  { "id": 43, "title": "Laptop problem", "description": "Harddisk ødelagt", "status": "Closed", "createdAt": "2025-10-29T13:45:00.000Z" },
-  { "id": 44, "title": "Mobil batteri", "description": "Lader ikke", "status": "In Progress", "createdAt": "2025-10-28T10:30:00.000Z" },
-  { "id": 45, "title": "PC 2021", "description": "Ødelagt skjerm", "status": "Open", "createdAt": "2025-10-27T12:00:00.000Z" },
-  { "id": 46, "title": "Router problem", "description": "Internett faller ut", "status": "Closed", "createdAt": "2025-10-26T09:55:00.000Z" },
-  { "id": 47, "title": "Epost problem", "description": "Mottar ikke mail", "status": "In Progress", "createdAt": "2025-10-25T11:40:00.000Z" },
-  { "id": 48, "title": "Software crash", "description": "App lukker seg", "status": "Open", "createdAt": "2025-10-24T08:50:00.000Z" },
-  { "id": 49, "title": "Webkamera defekt", "description": "Ingen bilde", "status": "Closed", "createdAt": "2025-10-23T12:20:00.000Z" },
-  { "id": 50, "title": "Laptop 2022", "description": "Tastatur fungerer ikke", "status": "In Progress", "createdAt": "2021-10-22T10:15:00.000Z" }
+  {
+    "id": 2,
+    "title": "Gunnar",
+    "description": "GunhildIldsom",
+    "status": "In Progress",
+    "createdAt": "2025-12-09T09:15:00.000Z"
+  },
+  {
+    "id": 3,
+    "title": "Gunhild",
+    "description": "Gunnar",
+    "status": "Open",
+    "createdAt": "2025-12-08T14:30:00.000Z"
+  },
+  {
+    "id": 4,
+    "title": "Hagla",
+    "description": "Gunnar",
+    "status": "Closed",
+    "createdAt": "2025-12-07T12:00:00.000Z"
+  },
+  {
+    "id": 5,
+    "title": "Elefant",
+    "description": "Avocado",
+    "status": "In Progress",
+    "createdAt": "2021-12-06T11:45:00.000Z"
+  },
+  {
+    "id": 6,
+    "title": "Laptop ødelagt",
+    "description": "Batteri fungerer ikke",
+    "status": "Open",
+    "createdAt": "2025-12-05T13:20:00.000Z"
+  },
+  {
+    "id": 7,
+    "title": "Printer problem",
+    "description": "Papirstopp",
+    "status": "Closed",
+    "createdAt": "2025-12-04T08:10:00.000Z"
+  },
+  {
+    "id": 8,
+    "title": "Jeg liker kanell",
+    "description": "Monitor slår seg ikke på",
+    "status": "In Progress",
+    "createdAt": "2025-12-03T15:55:00.000Z"
+  },
+  {
+    "id": 9,
+    "title": "Mus fungerer ikke",
+    "description": "Trådløs mus kobler fra",
+    "status": "Open",
+    "createdAt": "2025-12-02T10:30:00.000Z"
+  },
+  {
+    "id": 10,
+    "title": "Tastatur problem",
+    "description": "Noen taster virker ikke",
+    "status": "Closed",
+    "createdAt": "2021-12-01T09:00:00.000Z"
+  },
+  {
+    "id": 11,
+    "title": "Mobil lader",
+    "description": "USB-C kabel defekt",
+    "status": "In Progress",
+    "createdAt": "2025-11-30T16:45:00.000Z"
+  },
+  {
+    "id": 12,
+    "title": "Router restart",
+    "description": "Internett faller ut ofte",
+    "status": "Open",
+    "createdAt": "2025-11-29T14:10:00.000Z"
+  },
+  {
+    "id": 13,
+    "title": "Epost problem",
+    "description": "Mottar ingen eposter",
+    "status": "Closed",
+    "createdAt": "2025-11-28T12:30:00.000Z"
+  },
+  {
+    "id": 14,
+    "title": "VPN fungerer ikke",
+    "description": "Kan ikke logge på eksternt",
+    "status": "In Progress",
+    "createdAt": "2025-11-27T09:50:00.000Z"
+  },
+  {
+    "id": 15,
+    "title": "Webkamera defekt",
+    "description": "Kamera viser svart skjerm",
+    "status": "Open",
+    "createdAt": "2025-11-26T11:15:00.000Z"
+  },
+  {
+    "id": 16,
+    "title": "Hodetelefon problem",
+    "description": "Lyd forsvinner plutselig",
+    "status": "Closed",
+    "createdAt": "2025-11-25T10:00:00.000Z"
+  },
+  {
+    "id": 17,
+    "title": "Software crash",
+    "description": "Program lukker seg selv",
+    "status": "In Progress",
+    "createdAt": "2025-11-24T14:35:00.000Z"
+  },
+  {
+    "id": 18,
+    "title": "Windows update",
+    "description": "Installasjon stopper på 50%",
+    "status": "Open",
+    "createdAt": "2025-11-23T09:40:00.000Z"
+  },
+  {
+    "id": 19,
+    "title": "Backup feil",
+    "description": "Sikkerhetskopi fullfører ikke",
+    "status": "Closed",
+    "createdAt": "2025-11-22T15:20:00.000Z"
+  },
+  {
+    "id": 20,
+    "title": "Skanner problem",
+    "description": "Får feilmelding 0x01",
+    "status": "In Progress",
+    "createdAt": "2025-11-21T08:55:00.000Z"
+  },
+  {
+    "id": 21,
+    "title": "Laptop langsom",
+    "description": "Tar 5 minutter å starte",
+    "status": "Open",
+    "createdAt": "2025-11-20T13:00:00.000Z"
+  },
+  {
+    "id": 22,
+    "title": "Musikkprogram krasjer",
+    "description": "Ableton lukker seg",
+    "status": "Closed",
+    "createdAt": "2025-11-19T10:30:00.000Z"
+  },
+  {
+    "id": 23,
+    "title": "Monitor blinker",
+    "description": "Bildet flimrer",
+    "status": "In Progress",
+    "createdAt": "2025-11-18T12:15:00.000Z"
+  },
+  {
+    "id": 24,
+    "title": "Printer toner tom",
+    "description": "Kan ikke printe svart/hvitt",
+    "status": "Open",
+    "createdAt": "2025-11-17T09:05:00.000Z"
+  },
+  {
+    "id": 25,
+    "title": "PC restart loop",
+    "description": "Starter på nytt kontinuerlig",
+    "status": "Closed",
+    "createdAt": "2025-11-16T14:50:00.000Z"
+  },
+  {
+    "id": 26,
+    "title": "Mikrofon virker ikke",
+    "description": "Ingen lyd til Teams",
+    "status": "In Progress",
+    "createdAt": "2025-11-15T11:25:00.000Z"
+  },
+  {
+    "id": 27,
+    "title": "Software lisens utløpt",
+    "description": "Kan ikke åpne app",
+    "status": "Open",
+    "createdAt": "2025-11-14T08:40:00.000Z"
+  },
+  {
+    "id": 28,
+    "title": "PC fra 2021",
+    "description": "Ødelagt harddisk",
+    "status": "Closed",
+    "createdAt": "2025-11-13T10:10:00.000Z"
+  },
+  {
+    "id": 29,
+    "title": "Gamle filer",
+    "description": "Mangler tilgang",
+    "status": "In Progress",
+    "createdAt": "2025-11-12T09:30:00.000Z"
+  },
+  {
+    "id": 30,
+    "title": "Nettverk problem",
+    "description": "IP konflikt",
+    "status": "Open",
+    "createdAt": "2025-11-11T12:45:00.000Z"
+  },
+  {
+    "id": 31,
+    "title": "Laptop 2020",
+    "description": "Skjerm sprekker",
+    "status": "Closed",
+    "createdAt": "2024-11-10T14:15:00.000Z"
+  },
+  {
+    "id": 32,
+    "title": "Printer feil",
+    "description": "Feil 0x04",
+    "status": "In Progress",
+    "createdAt": "2024-11-09T11:50:00.000Z"
+  },
+  {
+    "id": 33,
+    "title": "USB problemer",
+    "description": "Kobler fra stadig vekk",
+    "status": "Open",
+    "createdAt": "2025-11-08T10:05:00.000Z"
+  },
+  {
+    "id": 34,
+    "title": "Musikkfil ikke åpner",
+    "description": "Feil format",
+    "status": "Closed",
+    "createdAt": "2025-11-07T09:25:00.000Z"
+  },
+  {
+    "id": 35,
+    "title": "PC langsom oppstart",
+    "description": "Mye CPU bruk ved boot",
+    "status": "In Progress",
+    "createdAt": "2025-11-06T13:10:00.000Z"
+  },
+  {
+    "id": 36,
+    "title": "Teams crash",
+    "description": "Feil ved deling av skjerm",
+    "status": "Open",
+    "createdAt": "2025-11-05T08:45:00.000Z"
+  },
+  {
+    "id": 37,
+    "title": "Laptop 2019",
+    "description": "Slår seg av tilfeldig",
+    "status": "Closed",
+    "createdAt": "2024-11-04T12:30:00.000Z"
+  },
+  {
+    "id": 38,
+    "title": "Webkamera uklart",
+    "description": "Blurry bilde",
+    "status": "In Progress",
+    "createdAt": "2021-11-03T10:15:00.000Z"
+  },
+  {
+    "id": 39,
+    "title": "Printer feil papirstopp",
+    "description": "Må rykke ut papiret",
+    "status": "Open",
+    "createdAt": "2025-11-02T09:00:00.000Z"
+  },
+  {
+    "id": 40,
+    "title": "Hodetelefon lydproblemer",
+    "description": "Lyd kutter",
+    "status": "Closed",
+    "createdAt": "2025-11-01T11:50:00.000Z"
+  },
+  {
+    "id": 41,
+    "title": "Backup fullfører ikke",
+    "description": "Filer mangler",
+    "status": "In Progress",
+    "createdAt": "2025-10-31T14:20:00.000Z"
+  },
+  {
+    "id": 42,
+    "title": "Skanner 2022",
+    "description": "Feilmelding 0x09",
+    "status": "Open",
+    "createdAt": "2025-10-30T09:10:00.000Z"
+  },
+  {
+    "id": 43,
+    "title": "Laptop problem",
+    "description": "Harddisk ødelagt",
+    "status": "Closed",
+    "createdAt": "2025-10-29T13:45:00.000Z"
+  },
+  {
+    "id": 44,
+    "title": "Mobil batteri",
+    "description": "Lader ikke",
+    "status": "In Progress",
+    "createdAt": "2025-10-28T10:30:00.000Z"
+  },
+  {
+    "id": 45,
+    "title": "PC 2021",
+    "description": "Ødelagt skjerm",
+    "status": "Open",
+    "createdAt": "2025-10-27T12:00:00.000Z"
+  },
+  {
+    "id": 46,
+    "title": "Router problem",
+    "description": "Internett faller ut",
+    "status": "Closed",
+    "createdAt": "2025-10-26T09:55:00.000Z"
+  },
+  {
+    "id": 47,
+    "title": "Epost problem",
+    "description": "Mottar ikke mail",
+    "status": "In Progress",
+    "createdAt": "2025-10-25T11:40:00.000Z"
+  },
+  {
+    "id": 48,
+    "title": "Software crash",
+    "description": "App lukker seg",
+    "status": "Open",
+    "createdAt": "2025-10-24T08:50:00.000Z"
+  },
+  {
+    "id": 49,
+    "title": "Webkamera defekt",
+    "description": "Ingen bilde",
+    "status": "Closed",
+    "createdAt": "2025-10-23T12:20:00.000Z"
+  },
+  {
+    "id": 50,
+    "title": "Laptop 2022",
+    "description": "Tastatur fungerer ikke",
+    "status": "In Progress",
+    "createdAt": "2021-10-22T10:15:00.000Z"
+  },
+  {
+    "id": 52,
+    "title": "Gybb",
+    "description": "Gybnar",
+    "status": "In Progress"
+  }
 ]

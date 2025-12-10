@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
+import TicketDetail from "./TicketDetails";
 
 function SokSak() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedTicket, setSelectedTicket] = useState(null);
 
   const debounceRef = useRef(null);
   const abortRef = useRef(null);
@@ -102,6 +104,23 @@ function SokSak() {
     doSearch(query);
   };
 
+   // Oppdater søkeresultater etter redigering
+  const handleUpdated = (updatedTicket) => {
+    setResults(prev => prev.map(t => t.id === updatedTicket.id ? updatedTicket : t));
+    setSelectedTicket(updatedTicket); // oppdater også valgt ticket
+  };
+
+  // Fjern ticket fra søkeresultater hvis slettet
+  const handleDeleted = (deletedId) => {
+    setResults(prev => prev.filter(t => t.id !== deletedId));
+    setSelectedTicket(null);
+  };
+
+  const handleSeeDetails = (ticketId) => {
+    const ticket = results.find(t => t.id === ticketId);
+    if (ticket) setSelectedTicket(ticket);
+  };
+
   return (
     <div style={{ marginTop: 20, padding: 16, border: "1px solid #ddd", borderRadius: 6 }}>
       <h3>Søk etter sak</h3>
@@ -139,12 +158,26 @@ function SokSak() {
                   Status: {r.status} — Start: {r.createdAt ? new Date(r.createdAt).toLocaleString() : "ukjent"} 
                   {r.completedAt && <> — Ferdig: {new Date(r.completedAt).toLocaleString()}</>}
                 </div>
+                
+                <button onClick={() => handleSeeDetails(r.id)} style={{ marginTop: 4 }}>
+                  See more details
+                </button>
               </li>
             ))}
           </ul>
         )}
+        
+        {/* Vis TicketDetail hvis valgt */}
+        {selectedTicket && (
+          <TicketDetail
+            ticket={selectedTicket}
+            onUpdated={handleUpdated}
+            onDeleted={handleDeleted}
+          />
+        )}
       </div>
-    </div>
+
+      </div>
   );
 }
 

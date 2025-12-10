@@ -1,12 +1,85 @@
-// Vise detailjer om en sak 
+import { useState } from "react";
 
+function TicketDetail({ ticket, onUpdated, onDeleted }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState(ticket.title);
+  const [description, setDescription] = useState(ticket.description);
+  const [status, setStatus] = useState(ticket.status);
+  const [loading, setLoading] = useState(false);
 
-function TicketDetails() {
+  const handleUpdate = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`http://localhost:3002/api/v1/tickets/${ticket.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, description, status })
+      });
+      const json = await res.json();
+      if (json.success) {
+        onUpdated(json.data);
+        setIsEditing(false);
+      } else {
+        alert("Feil ved oppdatering: " + (json.message || ""));
+      }
+    } catch (err) {
+      alert("Feil ved oppdatering: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm("Er du sikker på at du vil slette denne saken?")) return;
+    setLoading(true);
+    try {
+      const res = await fetch(`http://localhost:3002/api/v1/tickets/${ticket.id}`, {
+        method: "DELETE"
+      });
+      const json = await res.json();
+      if (json.success) {
+        onDeleted(ticket.id);
+      } else {
+        alert("Feil ved sletting: " + (json.message || ""));
+      }
+    } catch (err) {
+      alert("Feil ved sletting: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <>
-    
-    </>
-  )
+    <div style={{ border: "1px solid #ccc", padding: 16, marginTop: 16 }}>
+      {isEditing ? (
+        <>
+          <h3>Rediger sak #{ticket.id}</h3>
+          <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
+          <textarea value={description} onChange={e => setDescription(e.target.value)} />
+          <select value={status} onChange={e => setStatus(e.target.value)}>
+            <option value="Open">Open</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Closed">Closed</option>
+          </select>
+          <br />
+          <button onClick={handleUpdate} disabled={loading}>Lagre</button>
+          <button onClick={() => setIsEditing(false)} disabled={loading}>Avbryt</button>
+        </>
+      ) : (
+        <>
+          <h3>{ticket.title} <span style={{ color: "#666" }}>#{ticket.id}</span></h3>
+          <p>{ticket.description}</p>
+          <p>Status: {ticket.status}</p>
+          <p>Start: {ticket.createdAt ? new Date(ticket.createdAt).toLocaleString() : "ukjent"}</p>
+          {ticket.completedAt && <p>Ferdig: {new Date(ticket.completedAt).toLocaleString()}</p>}
+
+          <button onClick={() => setIsEditing(true)}>Rediger</button>
+          <button onClick={handleDelete} style={{ marginLeft: 8, background: "red", color: "white" }}>Slett</button>
+          <button style={{ marginLeft: 8 }}>Send videre</button>
+        </>
+      )}
+    </div>
+  );
 }
 
-export default TicketDetails
+export default TicketDetail;
