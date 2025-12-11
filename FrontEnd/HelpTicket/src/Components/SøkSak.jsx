@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import TicketDetail from "./TicketDetails";
 import { useTickets } from '../API/useTicket';
+import { useErrorHandler } from '../Hooks/useErrorHandler';
 
 function SokSak() {
   const { searchTickets } = useTickets();
+  const { handleError } = useErrorHandler();
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -28,8 +30,7 @@ function SokSak() {
       const results = await searchTickets(q);
       setSearchResults(results || []);
     } catch (err) {
-      console.error("Search error:", err);
-      setError(err);
+      handleError(err, "søke etter saker");
       setSearchResults([]);
     } finally {
       setLoading(false);

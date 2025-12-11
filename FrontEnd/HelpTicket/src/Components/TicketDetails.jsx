@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useTickets } from '../API/useTicket';
+import { useErrorHandler } from '../Hooks/useErrorHandler';
 
 function TicketDetail({ ticket, onUpdated, onDeleted }) {
   const { updateTicket, deleteTicket } = useTickets();
+  const { handleError, addError } = useErrorHandler();
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(ticket.title);
   const [description, setDescription] = useState(ticket.description);
@@ -15,9 +17,10 @@ function TicketDetail({ ticket, onUpdated, onDeleted }) {
       const updatedData = { title, description, status };
       const updatedTicket = await updateTicket(ticket.id, updatedData);
       onUpdated(updatedTicket);
+      addError("Saken ble oppdatert!", "success");
       setIsEditing(false);
     } catch (err) {
-      alert("Feil ved oppdatering: " + err.message);
+      handleError(err, "oppdatere sak");
     } finally {
       setLoading(false);
     }
@@ -29,8 +32,9 @@ function TicketDetail({ ticket, onUpdated, onDeleted }) {
     try {
       await deleteTicket(ticket.id);
       onDeleted(ticket.id);
+      addError("Saken ble slettet!", "success");
     } catch (err) {
-      alert("Feil ved sletting: " + err.message);
+      handleError(err, "slette sak");
     } finally {
       setLoading(false);
     }

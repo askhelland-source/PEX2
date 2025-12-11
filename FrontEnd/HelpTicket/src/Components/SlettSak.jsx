@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { useTickets } from '../API/useTicket';
+import { useErrorHandler } from '../Hooks/useErrorHandler';
 
 function SlettSak() {
   const { tickets, loading, deleteTicket } = useTickets();
+  const { handleError, addError } = useErrorHandler();
   const [selectedId, setSelectedId] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
-    if (!selectedId) return alert("Du må velge en sak!");
+    if (!selectedId) {
+      handleError("Du må velge en sak!", "validering");
+      return;
+    }
     
     const isConfirmed = window.confirm("Er du sikker på at du vil slette denne saken?");
     if (!isConfirmed) {
@@ -18,9 +23,9 @@ function SlettSak() {
     try {
       await deleteTicket(selectedId);
       setSelectedId(""); // Tøm dropdown
-      alert("Saken ble slettet!");
+      addError("Saken ble slettet!", "success");
     } catch (error) {
-      alert("Feil ved sletting: " + error.message);
+      handleError(error, "slette sak");
     } finally {
       setIsDeleting(false);
     }

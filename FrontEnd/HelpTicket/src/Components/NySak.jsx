@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useTickets } from '../API/useTicket';
+import { useErrorHandler } from '../Hooks/useErrorHandler';
 
 function NySak() {
   const { createTicket } = useTickets();
+  const { handleError, addError } = useErrorHandler();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -12,7 +14,8 @@ function NySak() {
   const handleCreate = async () => {
     //Sjekk om tittel og beskrivelse er fylt ut
     if (!title || !description) {
-        return alert("Tittel og beskrivelse må fylles ut.");
+        handleError("Tittel og beskrivelse må fylles ut.", "validering");
+        return;
     }
 
     const newTicketData = {
@@ -25,6 +28,7 @@ function NySak() {
 
     try {
       await createTicket(newTicketData); 
+      addError("Saken ble opprettet!", "success");
       
       // Tøm feltene
       setTitle("");
@@ -32,9 +36,7 @@ function NySak() {
       setStatus("In Progress");
 
     } catch (error) {
-      // Feil håndtert i hooken, men vis en melding til brukeren her
-      console.error("Noe gikk galt ):", error);
-      alert(`Klarte ikke å opprette sak. Feil: ${error.message}`);
+      handleError(error, "opprette sak");
     } finally {
       setIsCreating(false); // Stopp lasting
     }

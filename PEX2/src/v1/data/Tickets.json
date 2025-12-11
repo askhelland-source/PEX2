@@ -1,12 +1,5 @@
 [
   {
-    "id": 2,
-    "title": "Gunnar",
-    "description": "GunhildIldsom",
-    "status": "In Progress",
-    "createdAt": "2025-12-09T09:15:00.000Z"
-  },
-  {
     "id": 3,
     "title": "Gunhild",
     "description": "Gunnar",
@@ -19,13 +12,6 @@
     "description": "Gunnar",
     "status": "Closed",
     "createdAt": "2025-12-07T12:00:00.000Z"
-  },
-  {
-    "id": 5,
-    "title": "Elefant",
-    "description": "Avocado",
-    "status": "In Progress",
-    "createdAt": "2021-12-06T11:45:00.000Z"
   },
   {
     "id": 6,
@@ -259,13 +245,6 @@
     "createdAt": "2025-10-31T14:20:00.000Z"
   },
   {
-    "id": 42,
-    "title": "Skanner 2022",
-    "description": "Feilmelding 0x09",
-    "status": "Open",
-    "createdAt": "2025-10-30T09:10:00.000Z"
-  },
-  {
     "id": 43,
     "title": "Laptop problem",
     "description": "Harddisk ødelagt",
@@ -366,7 +345,7 @@
   {
     "id": 59,
     "title": "Wrong",
-    "description": "Wrong",
+    "description": "WrongHong",
     "status": "In Progress"
   }
 ]
