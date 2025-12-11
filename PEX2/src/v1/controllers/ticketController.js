@@ -1,18 +1,26 @@
 const { getAllObjects, getObjectById, deleteObjectById, updateObjectById, addObject } = require('../data/DataBaseTicket');
 const { get } = require('../routes/TicketsRoutes');
 const Fuse = require('fuse.js');
+const path = require("path");
 
 
 
 const getAllTickets = async (req, res) => {
     try {
         const tickets = await getAllObjects();
-        res.status(200).json({success: true, data: tickets});
+        return res.status(200).json({ success: true, data: tickets });
     } catch (error) {
-        res.status(500).json({success: false, error: "Something went wrong, we cant get the tickets ):"});
+
+        if (req.headers["accept"] && req.headers["accept"].includes("text/html")) {
+            return res.status(500).sendFile(path.join(__dirname, "../../ServerError.html"));
+        } else {
+            console.error("Error in getAllTickets:", error);
+            return res.status(500).json({ success: false, error: "Something went wrong, we can't get the tickets ):" });
+        }
 
     }
 };
+
 
 const getSingleTicket = async (req, res) => {
     try {
@@ -20,10 +28,17 @@ const getSingleTicket = async (req, res) => {
 
         res.status(200).json({sucess: true, data: req.ticket}); // Viktig JavaScript leser fra topp til bunn. Så retuner godkjent status etter all validering.
 
-    }   catch (error) {
-        res.status(500).json({sucess: false, error: "Something went wrong, we cant find the ticket you are looking for ):"});
+    } catch (error) {
+
+        if (req.headers["accept"] && req.headers["accept"].includes("text/html")) {
+            return res.status(500).sendFile(path.join(__dirname, "../../ServerError.html"));
+        } else {
+            console.error("Error in getAllTickets:", error);
+            return res.status(500).json({ success: false, error: "Something went wrong, we can't get the ticket ):" });
+        }
+
     }
-}
+};
 
 
 const createTicket = async (req, res) => {
@@ -36,10 +51,16 @@ const createTicket = async (req, res) => {
         res.status(201).json({success: true, data: newTicket}); // Viktig JavaScript leser fra topp til bunn. Så retuner godkjent status etter all validering.
         
     } catch (error) {
-        res.status(500).json({success: false, error: "Something went wrong, we cant create the ticket  ):"});
 
+        if (req.headers["accept"] && req.headers["accept"].includes("text/html")) {
+            return res.status(500).sendFile(path.join(__dirname, "../../ServerError.html"));
+        } else {
+            console.error("Error in getAllTickets:", error);
+            return res.status(500).json({ success: false, error: "Something went wrong, we can't create the ticket ):" });
         }
-}
+
+    }
+};
 
 const updateTicket = async (req, res) => {
     try{
@@ -49,10 +70,17 @@ const updateTicket = async (req, res) => {
  
         res.status(200).json({success: true, data: updatedTicket}); // Viktig JavaScript leser fra topp til bunn. Så retuner godkjent status etter all validering.
 
-    } catch(error){
-        res.status(500).json({success: false, error: "Something went wrong, we cant update the ticket):"});
+    } catch (error) {
+
+        if (req.headers["accept"] && req.headers["accept"].includes("text/html")) {
+            return res.status(500).sendFile(path.join(__dirname, "../../ServerError.html"));
+        } else {
+            console.error("Error in getAllTickets:", error);
+            return res.status(500).json({ success: false, error: "Something went wrong, we can't update the ticket):" });
+        }
+
     }
-}
+};
 
 
 const deleteTicket = async (req, res) => {
@@ -63,11 +91,18 @@ const deleteTicket = async (req, res) => {
 
         res.status(200).json({success: true, message: "Ticket deleted"});
 
-    } catch(error){
-        res.status(500).json({success: false, error: "Something went wrong, we cant delete the ticket ):"});
-    }
+    } catch (error) {
 
-}
+        if (req.headers["accept"] && req.headers["accept"].includes("text/html")) {
+            return res.status(500).sendFile(path.join(__dirname, "../../ServerError.html"));
+        } else {
+            console.error("Error in getAllTickets:", error);
+            return res.status(500).json({ success: false, error: "Something went wrong, we can't delete the ticket):" });
+        }
+
+    }
+};
+
 
 
 
