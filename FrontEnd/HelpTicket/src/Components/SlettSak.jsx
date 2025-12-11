@@ -1,44 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useTickets } from '../API/useTicket';
 
-function SlettSak({ onDeleted }) {
-
-  const [tickets, setTickets] = useState([]);
+function SlettSak() {
+  const { tickets, loading, deleteTicket } = useTickets();
   const [selectedId, setSelectedId] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  // Hent tickets fra backend
-  useEffect(() => {
-    fetch("http://localhost:3002/api/v1/tickets")
-      .then(res => res.json())
-      .then(json => {
-        setTickets(json.data || []);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Error fetching tickets:", err);
-        setLoading(false);
-      });
-  }, []);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
     if (!selectedId) return alert("Du må velge en sak!");
+    
     const isConfirmed = window.confirm("Er du sikker på at du vil slette denne saken?");
-if (!isConfirmed) {
-return;
+    if (!isConfirmed) {
+      return;
     }
-    const res = await fetch(`http://localhost:3002/api/v1/tickets/${selectedId}`, {
-      method: "DELETE"
-    });
 
-    const json = await res.json();
-
-    if (json.success) {
-      onDeleted(selectedId);  // Oppdater liste i parent
-      setSelectedId("");      // Tøm input
-      // Fjern saken fra dropdown lista
-      setTickets(prev => prev.filter(t => t.id !== parseInt(selectedId)));
-    } else {
-      alert("Fant ikke sak med ID " + selectedId);
+    setIsDeleting(true);
+    try {
+      await deleteTicket(selectedId);
+      setSelectedId(""); // Tøm dropdown
+      alert("Saken ble slettet!");
+    } catch (error) {
+      alert("Feil ved sletting: " + error.message);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -54,6 +38,7 @@ return;
             value={selectedId}
             onChange={(e) => setSelectedId(e.target.value)}
             style={{ padding: "8px", width: "100%", maxWidth: "400px" }}
+            disabled={isDeleting}
           >
             {tickets.map(ticket => (
               <option key={ticket.id} value={ticket.id}>
@@ -63,8 +48,12 @@ return;
           </select>
           <br /><br />
 
-          <button style={{ background: "red", color: "white" }} onClick={handleDelete}>
-            Slett sak
+          <button 
+            style={{ background: "red", color: "white" }} 
+            onClick={handleDelete}
+            disabled={isDeleting}
+          >
+            {isDeleting ? "Sletter..." : "Slett sak"}
           </button>
         </>
       )}

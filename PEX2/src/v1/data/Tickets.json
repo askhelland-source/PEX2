@@ -35,13 +35,6 @@
     "createdAt": "2025-12-05T13:20:00.000Z"
   },
   {
-    "id": 7,
-    "title": "Printer problem",
-    "description": "Papirstopp",
-    "status": "Closed",
-    "createdAt": "2025-12-04T08:10:00.000Z"
-  },
-  {
     "id": 9,
     "title": "Mus fungerer ikke",
     "description": "Trådløs mus kobler fra",
@@ -374,12 +367,6 @@
     "id": 59,
     "title": "Wrong",
     "description": "Wrong",
-    "status": "In Progress"
-  },
-  {
-    "id": 60,
-    "title": "Error",
-    "description": "Error",
     "status": "In Progress"
   }
 ]

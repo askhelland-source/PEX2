@@ -1,72 +1,38 @@
 import { useState, useEffect, useRef } from "react";
 import TicketDetail from "./TicketDetails";
+import { useTickets } from '../API/useTicket';
 
 function SokSak() {
+  const { searchTickets } = useTickets();
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedTicket, setSelectedTicket] = useState(null);
 
   const debounceRef = useRef(null);
-  const abortRef = useRef(null);
 
-  // funksjon som gjør fetch mot backend
+  // funksjon som gjør search via hook
   const doSearch = async (q) => {
-    // hvis tomt eller for kort, nullstill og don't show loading
-    if (!q || q.trim().length < 2) {
-      // avbryt pågående fetch hvis noen
-      if (abortRef.current) {
-        abortRef.current.abort();
-        abortRef.current = null;
-      }
-      setResults([]);
+    // hvis tomt eller for kort, nullstill resultater
+    if (!q || q.trim().length < 1) {
+      setSearchResults([]);
       setError(null);
       setLoading(false);
       return;
     }
 
-    // avbryt tidligere request
-    if (abortRef.current) {
-      abortRef.current.abort();
-    }
-
-    const controller = new AbortController();
-    abortRef.current = controller;
-
     setLoading(true);
     setError(null);
-
     try {
-      const encoded = encodeURIComponent(q);
-      const res = await fetch(`http://localhost:3002/api/v1/tickets/search?q=${encoded}`, {
-        signal: controller.signal
-      });
-
-      // om server svarer med ikke-JSON eller error, catch tar det
-      const json = await res.json();
-
-      // forsikre oss om at backend-return har success flag
-      if (json && json.success) {
-        setResults(Array.isArray(json.data) ? json.data : []);
-      } else if (json && !json.success) {
-        setResults([]);
-        setError(json.message || "Ingen treff");
-      } else {
-        setResults([]);
-      }
-
+      const results = await searchTickets(q);
+      setSearchResults(results || []);
     } catch (err) {
-      if (err.name === "AbortError") {
-        // request ble avbrutt — ikke vis feilmelding
-        // keep as is
-      } else {
-        setError("Feil ved søk: " + (err.message || "ukjent feil"));
-        setResults([]);
-      }
+      console.error("Search error:", err);
+      setError(err);
+      setSearchResults([]);
     } finally {
       setLoading(false);
-      abortRef.current = null;
     }
   };
 
@@ -81,7 +47,6 @@ function SokSak() {
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   // Enter-key handler
@@ -104,20 +69,20 @@ function SokSak() {
     doSearch(query);
   };
 
-   // Oppdater søkeresultater etter redigering
+  // Oppdater søkeresultater etter redigering
   const handleUpdated = (updatedTicket) => {
-    setResults(prev => prev.map(t => t.id === updatedTicket.id ? updatedTicket : t));
+    setSearchResults(prev => prev.map(t => t.id === updatedTicket.id ? updatedTicket : t));
     setSelectedTicket(updatedTicket); // oppdater også valgt ticket
   };
 
   // Fjern ticket fra søkeresultater hvis slettet
   const handleDeleted = (deletedId) => {
-    setResults(prev => prev.filter(t => t.id !== deletedId));
+    setSearchResults(prev => prev.filter(t => t.id !== deletedId));
     setSelectedTicket(null);
   };
 
   const handleSeeDetails = (ticketId) => {
-    const ticket = results.find(t => t.id === ticketId);
+    const ticket = searchResults.find(t => t.id === ticketId);
     if (ticket) setSelectedTicket(ticket);
   };
 
@@ -141,16 +106,16 @@ function SokSak() {
         {loading && <p>Laster resultater...</p>}
 
         {!loading && error && (
-          <p style={{ color: "crimson" }}>{error}</p>
+          <p style={{ color: "crimson" }}>Feil ved søk: {error.message}</p>
         )}
 
-        {!loading && !error && results.length === 0 && query.trim().length >= 2 && (
+        {!loading && !error && searchResults.length === 0 && query.trim().length >= 2 && (
           <p>Ingen treff for "{query}"</p>
         )}
 
-        {!loading && results.length > 0 && (
+        {!loading && searchResults.length > 0 && (
           <ul style={{ marginTop: 8 }}>
-            {results.map((r) => (
+            {searchResults.map((r) => (
               <li key={r.id} style={{ padding: 8, borderBottom: "1px solid #eee" }}>
                 <div style={{ fontWeight: 600 }}>{r.title} <span style={{ color: "#666" }}>#{r.id}</span></div>
                 <div style={{ fontSize: 13, color: "#333" }}>{r.description}</div>
@@ -176,8 +141,7 @@ function SokSak() {
           />
         )}
       </div>
-
-      </div>
+    </div>
   );
 }
 

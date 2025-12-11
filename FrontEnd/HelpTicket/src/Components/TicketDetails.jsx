@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useTickets } from '../API/useTicket';
 
 function TicketDetail({ ticket, onUpdated, onDeleted }) {
+  const { updateTicket, deleteTicket } = useTickets();
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(ticket.title);
   const [description, setDescription] = useState(ticket.description);
@@ -10,18 +12,10 @@ function TicketDetail({ ticket, onUpdated, onDeleted }) {
   const handleUpdate = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:3002/api/v1/tickets/${ticket.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description, status })
-      });
-      const json = await res.json();
-      if (json.success) {
-        onUpdated(json.data);
-        setIsEditing(false);
-      } else {
-        alert("Feil ved oppdatering: " + (json.message || ""));
-      }
+      const updatedData = { title, description, status };
+      const updatedTicket = await updateTicket(ticket.id, updatedData);
+      onUpdated(updatedTicket);
+      setIsEditing(false);
     } catch (err) {
       alert("Feil ved oppdatering: " + err.message);
     } finally {
@@ -33,15 +27,8 @@ function TicketDetail({ ticket, onUpdated, onDeleted }) {
     if (!window.confirm("Er du sikker på at du vil slette denne saken?")) return;
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:3002/api/v1/tickets/${ticket.id}`, {
-        method: "DELETE"
-      });
-      const json = await res.json();
-      if (json.success) {
-        onDeleted(ticket.id);
-      } else {
-        alert("Feil ved sletting: " + (json.message || ""));
-      }
+      await deleteTicket(ticket.id);
+      onDeleted(ticket.id);
     } catch (err) {
       alert("Feil ved sletting: " + err.message);
     } finally {

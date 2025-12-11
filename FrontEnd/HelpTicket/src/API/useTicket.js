@@ -67,8 +67,8 @@ export function useTickets() {
     setLoading(true);
     setError(null);
     try {
-      // Assuming your API handles searching via query parameters like /tickets?search=query
-      const json = await apiGet(`?search=${encodeURIComponent(queryTerm)}`);
+      // Using the correct search endpoint: /search?q=query
+      const json = await apiGet(`/search?q=${encodeURIComponent(queryTerm)}`);
       setTickets(json.data || []);
       return json.data || [];
     } catch (err) {
