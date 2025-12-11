@@ -42,13 +42,6 @@
     "createdAt": "2025-12-04T08:10:00.000Z"
   },
   {
-    "id": 8,
-    "title": "Jeg liker kanell",
-    "description": "Monitor slår seg ikke på",
-    "status": "In Progress",
-    "createdAt": "2025-12-03T15:55:00.000Z"
-  },
-  {
     "id": 9,
     "title": "Mus fungerer ikke",
     "description": "Trådløs mus kobler fra",
@@ -75,13 +68,6 @@
     "description": "Internett faller ut ofte",
     "status": "Open",
     "createdAt": "2025-11-29T14:10:00.000Z"
-  },
-  {
-    "id": 13,
-    "title": "Epost problem",
-    "description": "Mottar ingen eposter",
-    "status": "Closed",
-    "createdAt": "2025-11-28T12:30:00.000Z"
   },
   {
     "id": 14,
@@ -346,6 +332,54 @@
     "id": 52,
     "title": "Gybb",
     "description": "Gybnar",
+    "status": "In Progress"
+  },
+  {
+    "id": 53,
+    "title": "Gunnar",
+    "description": "GunnarLikerOst",
+    "status": "In Progress"
+  },
+  {
+    "id": 54,
+    "title": "Nei",
+    "description": "JegTrorIkkeDet",
+    "status": "In Progress"
+  },
+  {
+    "id": 55,
+    "title": "JegLiker",
+    "description": "KanellBolle",
+    "status": "In Progress"
+  },
+  {
+    "id": 56,
+    "title": "Stemene hvisker!!?",
+    "description": "Hagla frister );",
+    "status": "In Progress"
+  },
+  {
+    "id": 57,
+    "title": "Pc funker ikke",
+    "description": "Jeg ser bare svart",
+    "status": "In Progress"
+  },
+  {
+    "id": 58,
+    "title": "Jeg liker ",
+    "description": "Ostehøvel",
+    "status": "In Progress"
+  },
+  {
+    "id": 59,
+    "title": "Wrong",
+    "description": "Wrong",
+    "status": "In Progress"
+  },
+  {
+    "id": 60,
+    "title": "Error",
+    "description": "Error",
     "status": "In Progress"
   }
 ]

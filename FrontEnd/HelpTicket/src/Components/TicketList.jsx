@@ -1,17 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TicketDetail from "./TicketDetails";
+import { useTickets } from '../API/useTicket';
 
 function TicketList() {
-  const [tickets, setTickets] = useState([]);
-  const [selectedTicket, setSelectedTicket] = useState(null); // må ha state for valgt ticket
+  const { tickets, loading, error } = useTickets(); 
+  const [selectedTicket, setSelectedTicket] = useState(null);
 
-  // Hent tickets fra backend
-  useEffect(() => {
-    fetch("http://localhost:3002/api/v1/tickets")
-      .then(res => res.json())
-      .then(json => setTickets(json.data)) 
-      .catch(err => console.error("Error fetching tickets:", err));
-  }, []);
+  // viser status koder
+  if (loading) return <div>Laster saker...</div>;
+  if (error) return <div>Feil ved henting av saker: {error.message}</div>;
 
   // Når man klikker "See more details"
   const handleSeeDetails = (ticketId) => {
@@ -21,13 +18,11 @@ function TicketList() {
 
   // Når en ticket oppdateres
   const handleUpdated = (updatedTicket) => {
-    setTickets(prev => prev.map(t => t.id === updatedTicket.id ? updatedTicket : t));
     setSelectedTicket(updatedTicket); // oppdater også valgt ticket
   };
 
   // Når en ticket slettes
   const handleDeleted = (deletedId) => {
-    setTickets(prev => prev.filter(t => t.id !== deletedId));
     setSelectedTicket(null); // fjern valgt ticket hvis den ble slettet
   };
 

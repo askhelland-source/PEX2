@@ -6,68 +6,74 @@ This repository contains a small help-ticket application split into two main are
 - Backend: `PEX2/src` — an Express API that persists data to `PEX2/src/v1/data/Tickets.json` (file-backed DB).
 - Frontend: `FrontEnd/HelpTicket` — a Vite + React app that calls the backend at `http://localhost:3002/api/v1/tickets`.
 
-Key facts for an AI agent to be productive quickly:
+## Key facts for an AI agent to be productive quickly
 
-- Start/Run:
-  - Backend (dev): `node src/App.js` run from the `PEX2` folder. Note: `package.json` currently has an incorrect `start` script (`node server.js`) — prefer `node src/App.js`.
-  - Frontend (dev): `npm install` then `npm run dev` in `FrontEnd/HelpTicket` (Vite).
-  - Frontend build: `npm run build` in `FrontEnd/HelpTicket`.
+**Start/Run:**
+- Backend (dev): `node src/App.js` from the `PEX2` folder. Note: `package.json` has incorrect `start` script (`node server.js`) — prefer `node src/App.js`.
+- Frontend (dev): `npm install` then `npm run dev` in `FrontEnd/HelpTicket` (Vite).
+- Frontend build: `npm run build` in `FrontEnd/HelpTicket`.
 
-- API surface (backend routes): `PEX2/src/v1/routes/TicketsRoutes.js`
-  - GET `/` — list all tickets
-  - GET `/:id` — single ticket (ID validated by middleware)
-  - POST `/` — create ticket
-  - PUT `/:id` — update ticket
-  - DELETE `/:id` — delete ticket
-  - GET `/search?q=...` — fuzzy search (uses Fuse.js)
+**API surface** (`PEX2/src/v1/routes/TicketsRoutes.js`):
+- GET `/` — list all tickets
+- GET `/:id` — single ticket (ID validated by middleware)
+- POST `/` — create ticket
+- PUT `/:id` — update ticket
+- DELETE `/:id` — delete ticket
+- GET `/search?q=...` — fuzzy search (uses Fuse.js on keys: `title, description, status, id, createdAt, completedAt`)
 
-- Data layer: `PEX2/src/v1/data/DataBaseTicket.js` and `storage.js` (reads/writes JSON). When changing schema, update both controller logic and frontend consumption.
+**Frontend Architecture** — **NEW**: Custom hook + centralized API pattern
+- `FrontEnd/HelpTicket/src/API/Fetch.js` — centralized API utility (`apiGet()`, `apiSend()`) wrapping fetch with error handling.
+- `FrontEnd/HelpTicket/src/API/useTicket.js` — custom hook exporting `useTickets()` managing tickets state, CRUD operations, search, optimistic updates.
+- Use `useTickets()` in components instead of direct fetch calls; components should import and call hook methods (`fetchAllTickets`, `createTicket`, `updateTicket`, `deleteTicket`, `searchTickets`).
+- Example: `SlettSak.jsx` now uses the hook pattern (fetches ticket list, shows dropdown, calls `deleteTicket()` on submission).
 
-- Validation patterns: `PEX2/src/v1/middleware/ticketValidation.js`
-  - Title validation regex + length rules (2–100 chars). Keep changes consistent with the frontend UI.
-  - Allowed statuses: `"Open"`, `"In Progress"`, `"Closed"` — update both backend validation and frontend dropdowns when changing.
+**Data layer** (`PEX2/src/v1/data/`):
+- `DataBaseTicket.js` — CRUD operations (read, create, update, delete).
+- `storage.js` — JSON file read/write. Concurrent writes can race — consider locking if adding parallel writes.
+- When changing schema, update: controller logic, middleware validation, and frontend hook.
 
-- Search: `ticketController.searchTickets` configures Fuse.js keys: `['title','description','status','id','createdAt','completedAt']`. Frontend expects `json.success` and `json.data`.
+**Validation patterns** (`PEX2/src/v1/middleware/ticketValidation.js`):
+- Title: 2–100 chars, regex allows letters/numbers/Norwegian chars (Åå, Øø, Ææ), punctuation.
+- Allowed statuses: `"Open"`, `"In Progress"`, `"Closed"` — update backend AND frontend dropdowns when changing.
+- Description: minimum 5 chars, no strict regex (free text).
 
-- Frontend expectations / patterns:
-  - API base used in code: `http://localhost:3002/api/v1/tickets` (hardcoded in components). Update all usages when changing host/port.
-  - Components use plain fetch + React state (no global store). Typical files: `src/Components/TicketList.jsx`, `SøkSak.jsx` (search), `NySak.jsx` (create), `SlettSak.jsx`.
-  - `SøkSak.jsx` uses debounce, AbortController for request cancellation — preserve that pattern when editing search UX.
+**API response contract:**
+- All endpoints return `{ success: true|false, data: ... }` — frontend relies on this structure.
+- Preserve `success` flag and `data` field when modifying endpoints.
 
-- Naming / i18n: source contains Norwegian identifiers/strings (e.g., `SøkSak`, `NySak`). Watch for non-ASCII filenames and exports — some components export ASCII names while files include special characters (e.g., file `SøkSak.jsx` exports `SokSak`). Keep import/export names consistent.
+**Frontend patterns / naming:**
+- Norwegian identifiers: `SøkSak` (search), `NySak` (create), `SlettSak` (delete), `TicketList`, `TicketDetails`.
+- File `SøkSak.jsx` exports `SokSak` (ASCII alias); watch for inconsistencies.
+- Components in `src/Components/` and page-level routes in `src/Pages/`.
+- `SøkSak.jsx` uses debounce + AbortController for search UX — preserve pattern when editing.
 
-Implementation notes and common gotchas:
+## Common tasks & where to edit
 
-- The backend persists to `Tickets.json`. Concurrent writes can race — if you add parallel writes, consider switching to a proper DB or adding write locking.
-- `package.json` at `PEX2/package.json` has `main: "Server.js"` and `start: "node server.js"` but actual server code is `src/App.js`. Update `package.json` if adding automated start scripts or deploying.
-- The API returns JSON shaped like `{ success: true|false, data: ... }` — frontend relies on this. Preserve `success` flag and `data` structure for compatibility.
+- **Add a new ticket field:** update `DataBaseTicket.js` schema, `ticketValidation.js` rules, `ticketController.js` handling, frontend form components, and `useTicket.js` hook if needed.
+- **Change validation rules:** edit `ticketValidation.js` (backend) + frontend form UI.
+- **Change API base URL or port:** update `BASE_URL` in `Fetch.js` (single source of truth).
+- **Refactor components to use hook:** replace `fetch()` calls with `useTickets()` methods; see `SlettSak.jsx` as example.
 
-Where to change things for common tasks
+## Implementation notes
 
-- Add a new API field: update `DataBaseTicket.js`, `ticketController.js`, `ticketValidation.js`, and the frontend components (`TicketList.jsx`, `TicketDetails.jsx`, forms).
-- Change validation rules: update `ticketValidation.js` and adjust frontend validations/placeholders accordingly.
-- Change ports or host: update hardcoded URLs in frontend `FrontEnd/HelpTicket/src/Components/*` or centralize into a config file.
+- Backend persists to `Tickets.json`; concurrent writes can race. Consider switching to DB or adding write locking for concurrent operations.
+- `PEX2/package.json` has `main: "Server.js"` and `start: "node server.js"` but actual entry is `src/App.js`. Update if deploying.
+- Deletion endpoint (`DELETE /:id`) returns HTTP 204 (no content) — `apiSend()` in `Fetch.js` handles this by returning `{}`.
 
-Quick examples
+## Files of interest (start here)
 
-- Run backend (from repo root):
-```powershell
-cd PEX2 ; node src/App.js
-```
-- Run frontend:
-```powershell
-cd FrontEnd/HelpTicket ; npm install ; npm run dev
-```
+**Backend:**
+- `PEX2/src/App.js` — Express app entry, listens on port 3002
+- `PEX2/src/v1/routes/TicketsRoutes.js` — router with middleware validation
+- `PEX2/src/v1/controllers/ticketController.js` — CRUD + search logic using Fuse.js
+- `PEX2/src/v1/data/` — file-backed persistence
+- `PEX2/src/v1/middleware/ticketValidation.js` — validation rules
 
-Files of interest (start here):
-
-- `PEX2/src/App.js` — express app entry, listens on port 3002
-- `PEX2/src/v1/routes/TicketsRoutes.js` — router and endpoints
-- `PEX2/src/v1/controllers/ticketController.js` — main API logic (create/read/update/delete + search)
-- `PEX2/src/v1/data/*` — file-backed persistence (`Tickets.json`)
-- `PEX2/src/v1/middleware/ticketValidation.js` — input validation rules
-- `FrontEnd/HelpTicket/src/Components` — UI components interacting with the API
-
-If anything above is unclear or you want me to expand an area (run scripts, fix `package.json` start script, or centralize frontend API base), tell me which change to make and I'll apply it.
+**Frontend:**
+- `FrontEnd/HelpTicket/src/API/Fetch.js` — centralized API wrapper
+- `FrontEnd/HelpTicket/src/API/useTicket.js` — custom hook for state management
+- `FrontEnd/HelpTicket/src/Components/SlettSak.jsx` — example of hook usage (delete with dropdown)
+- `FrontEnd/HelpTicket/src/Components/SøkSak.jsx` — search component with debounce
+- `FrontEnd/HelpTicket/src/Components/TicketList.jsx` — main list view
 
 -- End of instructions

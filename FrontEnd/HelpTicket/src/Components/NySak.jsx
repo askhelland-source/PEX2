@@ -1,31 +1,42 @@
 import { useState } from "react";
+import { useTickets } from '../API/useTicket';
 
-function NySak({ onCreated }) {
+function NySak() {
+  const { createTicket } = useTickets();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("In Progress"); // standard verdi
+  const [status, setStatus] = useState("In Progress");
+  const [isCreating, setIsCreating] = useState(false);
 
   const handleCreate = async () => {
-    const newTicket = {
+    //Sjekk om tittel og beskrivelse er fylt ut
+    if (!title || !description) {
+        return alert("Tittel og beskrivelse må fylles ut.");
+    }
+
+    const newTicketData = {
       title,
       description,
       status
     };
 
-    const res = await fetch("http://localhost:3002/api/v1/tickets", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newTicket)
-    });
+    setIsCreating(true);
 
-    const json = await res.json();
-    
-    if (json.success) {
-      onCreated(json.data); // oppdater liste
+    try {
+      await createTicket(newTicketData); 
+      
+      // Tøm feltene
       setTitle("");
       setDescription("");
       setStatus("In Progress");
+
+    } catch (error) {
+      // Feil håndtert i hooken, men vis en melding til brukeren her
+      console.error("Noe gikk galt ):", error);
+      alert(`Klarte ikke å opprette sak. Feil: ${error.message}`);
+    } finally {
+      setIsCreating(false); // Stopp lasting
     }
   };
 
