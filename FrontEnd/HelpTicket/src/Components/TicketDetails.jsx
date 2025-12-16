@@ -66,7 +66,7 @@ function TicketDetail({ ticket, onUpdated, onDeleted }) {
 
           <button onClick={() => setIsEditing(true)}>Rediger</button>
           <button onClick={handleDelete} style={{ marginLeft: 8, background: "red", color: "white" }}>Slett</button>
-          <button style={{ marginLeft: 8 }}>Send videre</button>
+          <button style={{ marginLeft: 8 }}>Assign to</button>
         </>
       )}
     </div>

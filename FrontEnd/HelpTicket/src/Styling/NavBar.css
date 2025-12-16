@@ -1,0 +1,15 @@
+.navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 1rem 2rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
